@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbr3twxkkpc4x"]
+
+[ext_resource type="Shader" path="res://movement.gdshader" id="1_1fwam"]
+[ext_resource type="Texture2D" uid="uid://xrw7axnd2b5v" path="res://art/foregrounds/fg1.png" id="2_s4f5g"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fxbrf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dmivh"]
+shader = ExtResource("1_1fwam")
+
+[node name="PolyPlatformStaticBody" type="StaticBody2D"]
+texture_filter = 1
+physics_material_override = SubResource("PhysicsMaterial_fxbrf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_dmivh")
+texture = ExtResource("2_s4f5g")
+region_enabled = true
+region_rect = Rect2(0, 0, 1280, 604)
+region_filter_clip_enabled = true
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-640, -107, -639, 302, 640, 302, 640, -303, 373, -290, 355, -48, 329, -49, 329, 230, -311, 230, -312, -48, -369, -113)
