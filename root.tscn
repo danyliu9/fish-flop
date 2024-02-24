@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bma1g3k614w1w" path="res://art/sprites/idle1.png" id="3_h2hmy"]
 [ext_resource type="PackedScene" uid="uid://dbr3twxkkpc4x" path="res://objects/polyPlatform.tscn" id="4_hkhyx"]
 [ext_resource type="Texture2D" uid="uid://cqpvyjk26ftqg" path="res://art/sprites/idle2.png" id="4_ilcr6"]
-[ext_resource type="PackedScene" uid="uid://denf3x3tffcko" path="res://objects/plaformBent.tscn" id="4_lj5k7"]
+[ext_resource type="PackedScene" uid="uid://denf3x3tffcko" path="res://objects/plaformUpLeftCorner.tscn" id="4_lj5k7"]
 [ext_resource type="Texture2D" uid="uid://cgwmhdpfekhec" path="res://art/sprites/Layer 3.png" id="5_lcwt4"]
 [ext_resource type="Texture2D" uid="uid://8cbxchhr47id" path="res://art/sprites/Layer 4.png" id="6_37fkc"]
 [ext_resource type="Texture2D" uid="uid://6k81ygu1uh8i" path="res://art/sprites/Layer 5.png" id="7_beqxc"]
