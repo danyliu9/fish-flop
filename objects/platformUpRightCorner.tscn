@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cls6py4rhhjw0"]
+
+[ext_resource type="Shader" path="res://movement.gdshader" id="1_860qu"]
+[ext_resource type="Texture2D" uid="uid://dt8ygktwvbbsp" path="res://art/tiles/tile_corner_right.png" id="2_8sx0m"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fxbrf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dmivh"]
+shader = ExtResource("1_860qu")
+
+[node name="PlatformStaticBody2D" type="StaticBody2D"]
+texture_filter = 1
+physics_material_override = SubResource("PhysicsMaterial_fxbrf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_dmivh")
+texture = ExtResource("2_8sx0m")
+region_enabled = true
+region_rect = Rect2(0, 0, 72, 76)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(-1, 1)
+polygon = PackedVector2Array(4, 39, 4, 6, 36, 6, 36, -38, 0, -38, -19, -29, -30, -18, -36, -9, -36, 39)
