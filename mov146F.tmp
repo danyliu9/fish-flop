@@ -1,0 +1,226 @@
+[gd_scene load_steps=22 format=3 uid="uid://8pguvkbn1yyr"]
+
+[ext_resource type="Texture2D" uid="uid://yackl6wyixoj" path="res://assets/fish.png" id="2_ii03p"]
+[ext_resource type="Texture2D" uid="uid://bma1g3k614w1w" path="res://assets/idle1.png" id="3_h2hmy"]
+[ext_resource type="Texture2D" uid="uid://cqpvyjk26ftqg" path="res://assets/idle2.png" id="4_ilcr6"]
+[ext_resource type="Texture2D" uid="uid://cgwmhdpfekhec" path="res://assets/Layer 3.png" id="5_lcwt4"]
+[ext_resource type="Texture2D" uid="uid://8cbxchhr47id" path="res://assets/Layer 4.png" id="6_37fkc"]
+[ext_resource type="Texture2D" uid="uid://6k81ygu1uh8i" path="res://assets/Layer 5.png" id="7_beqxc"]
+[ext_resource type="Texture2D" uid="uid://vppb5fit2kpc" path="res://assets/Layer 6.png" id="8_3njj3"]
+[ext_resource type="Texture2D" uid="uid://c5g38shtrrwbj" path="res://assets/air1.png" id="9_vlp7t"]
+[ext_resource type="Texture2D" uid="uid://dta735172sj31" path="res://assets/midair_down.png" id="10_mkee6"]
+[ext_resource type="Texture2D" uid="uid://ds7uq3t2xdvyb" path="res://assets/midair_up1.png" id="11_qngdh"]
+[ext_resource type="Texture2D" uid="uid://04qibi70pkcd" path="res://assets/midair_up2.png" id="12_dlb7j"]
+[ext_resource type="Texture2D" uid="uid://bi7koh03y0io7" path="res://assets/midair_up3.png" id="13_m8qci"]
+[ext_resource type="Texture2D" uid="uid://dk1csm61qjhyd" path="res://assets/midair_up4.png" id="14_6pb3m"]
+[ext_resource type="Texture2D" uid="uid://bhrc4nh1m5abc" path="res://assets/wooden_platform.png" id="15_lpwwh"]
+[ext_resource type="Texture2D" uid="uid://deam7s3q1vn16" path="res://assets/backgrounds/bg1.png" id="15_yk35v"]
+[ext_resource type="Shader" path="res://movement.gdshader" id="16_j7hre"]
+
+[sub_resource type="GDScript" id="GDScript_q88o5"]
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\") * 2
+
+var jump_charge = .5
+
+@onready var _animated_sprite  = $AnimatedSprite2D
+
+func _on_jump_charge_animation_finished():
+	pass
+
+func _process(delta):
+	if is_on_floor():
+		if Input.is_action_pressed(\"ui_accept\"):
+			if _animated_sprite.animation == \"jump_charge\":
+				jump_fully_charged = _animated_sprite.frame == -2
+				if jump_fully_charged:
+					_animated_sprite.stop()
+			else:
+				_animated_sprite.play(\"jump_charge\")
+				
+		else:
+			_animated_sprite.play(\"idle\")
+	else:
+		if velocity.y <= 0:
+			_animated_sprite.play(\"midair_up\")
+		else:
+			_animated_sprite.play(\"midair_down\")
+		
+		if position.y > 1000:
+			position.y = 0
+			
+	if velocity.x < 0:
+		_animated_sprite.flip_h = true
+	if velocity.x > 0:
+		_animated_sprite.flip_h = false
+		
+		
+
+func _physics_process(delta):
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y += gravity * delta
+
+	# Handle jump.
+	if Input.is_action_pressed(\"ui_accept\") and is_on_floor():
+		jump_charge += delta * 3
+
+	# Handle jump charge.
+	if Input.is_action_just_released(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY * jump_charge
+		jump_charge = .5
+		
+	velocity.y = clamp(velocity.y, -1200,1500)
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction = Input.get_axis(\"ui_left\", \"ui_right\")
+	if direction and not is_on_floor():
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+
+
+"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oqd7y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_h2hmy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ilcr6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_lcwt4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_37fkc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_beqxc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_3njj3")
+}],
+"loop": false,
+"name": &"jump_charge",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_vlp7t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_mkee6")
+}],
+"loop": true,
+"name": &"midair_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_qngdh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_dlb7j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_m8qci")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_6pb3m")
+}],
+"loop": true,
+"name": &"midair_up",
+"speed": 7.0
+}]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fxbrf"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3qq7f"]
+height = 230.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dmivh"]
+shader = ExtResource("16_j7hre")
+
+[node name="Movement" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+top_level = true
+position = Vector2(523, 327)
+script = SubResource("GDScript_q88o5")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharacterBody2D"]
+polygon = PackedVector2Array(-39, 6, 2, 10, 38, 8, 41, 3, 32, -5, 11, -9)
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+visible = false
+texture = ExtResource("2_ii03p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+sprite_frames = SubResource("SpriteFrames_oqd7y")
+animation = &"jump_charge"
+
+[node name="Map" type="Node2D" parent="."]
+
+[node name="Bg1" type="Sprite2D" parent="Map"]
+position = Vector2(572.5, 321.5)
+scale = Vector2(0.903906, 0.898611)
+texture = ExtResource("15_yk35v")
+
+[node name="PlatformStaticBody2D3" type="StaticBody2D" parent="Map"]
+position = Vector2(184, 261)
+physics_material_override = SubResource("PhysicsMaterial_fxbrf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/PlatformStaticBody2D3"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_3qq7f")
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/PlatformStaticBody2D3/CollisionShape2D"]
+position = Vector2(-5.45697e-12, -1.43051e-06)
+rotation = -1.5708
+scale = Vector2(0.86692, 0.765)
+texture = ExtResource("15_lpwwh")
+
+[node name="PlatformStaticBody2D2" type="StaticBody2D" parent="Map"]
+position = Vector2(797, 326)
+physics_material_override = SubResource("PhysicsMaterial_fxbrf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/PlatformStaticBody2D2"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_3qq7f")
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/PlatformStaticBody2D2/CollisionShape2D"]
+position = Vector2(3.61995e-06, 0.999989)
+rotation = -1.5708
+scale = Vector2(0.86692, 0.765)
+texture = ExtResource("15_lpwwh")
+
+[node name="PlatformStaticBody2D" type="StaticBody2D" parent="Map"]
+position = Vector2(525, 494)
+physics_material_override = SubResource("PhysicsMaterial_fxbrf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/PlatformStaticBody2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_3qq7f")
+
+[node name="Sprite2D" type="Sprite2D" parent="Map/PlatformStaticBody2D"]
+material = SubResource("ShaderMaterial_dmivh")
+texture = ExtResource("15_lpwwh")
+
+[connection signal="animation_finished" from="CharacterBody2D/AnimatedSprite2D" to="CharacterBody2D" method="_on_jump_charge_animation_finished"]
