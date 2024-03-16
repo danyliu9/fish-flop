@@ -103,6 +103,7 @@ func _physics_process(delta):
 	var direction = Input.get_axis(\"ui_left\", \"ui_right\")
 	
 	if is_on_wall_only():
+		print(velocity)
 		if velocity.x != 0:
 			velocity.x = -velocity.x * 5
 	
@@ -189,43 +190,43 @@ animations = [{
 position = Vector2(0, -720)
 texture = ExtResource("16_1wqcj")
 
-[node name="Platforms2" type="Node2D" parent="bg1"]
+[node name="Platforms" type="Node2D" parent="bg1"]
 position = Vector2(0, 720)
 
-[node name="PlatformStaticBody2D5" parent="bg1/Platforms2" instance=ExtResource("13_sd10b")]
+[node name="PlatformStaticBody2D5" parent="bg1/Platforms" instance=ExtResource("13_sd10b")]
 position = Vector2(-331, -630)
 
-[node name="PlatformStaticBody2D4" parent="bg1/Platforms2/PlatformStaticBody2D5" instance=ExtResource("4_lj5k7")]
+[node name="PlatformStaticBody2D4" parent="bg1/Platforms/PlatformStaticBody2D5" instance=ExtResource("4_lj5k7")]
 position = Vector2(-141, 18)
 
-[node name="PlatformStaticBody2D5" parent="bg1/Platforms2/PlatformStaticBody2D5" instance=ExtResource("4_lj5k7")]
+[node name="PlatformStaticBody2D5" parent="bg1/Platforms/PlatformStaticBody2D5" instance=ExtResource("4_lj5k7")]
 position = Vector2(143, 18)
 scale = Vector2(-1, 1)
 
-[node name="PlatformStaticBody2D6" parent="bg1/Platforms2/PlatformStaticBody2D5" instance=ExtResource("4_lj5k7")]
+[node name="PlatformStaticBody2D6" parent="bg1/Platforms/PlatformStaticBody2D5" instance=ExtResource("4_lj5k7")]
 position = Vector2(143, 94)
 scale = Vector2(-1, -1)
 
-[node name="PlatformStaticBody2D7" parent="bg1/Platforms2/PlatformStaticBody2D5" instance=ExtResource("4_lj5k7")]
+[node name="PlatformStaticBody2D7" parent="bg1/Platforms/PlatformStaticBody2D5" instance=ExtResource("4_lj5k7")]
 position = Vector2(-141, 95)
 scale = Vector2(1, -1)
 
-[node name="PlatformStaticBody2D" parent="bg1/Platforms2" instance=ExtResource("13_sd10b")]
+[node name="PlatformStaticBody2D" parent="bg1/Platforms" instance=ExtResource("13_sd10b")]
 z_index = 1
 position = Vector2(-331, -518)
 
-[node name="bg" type="Sprite2D" parent="."]
+[node name="bg0" type="Sprite2D" parent="."]
 texture = ExtResource("14_qlxol")
 
-[node name="Platforms" type="Node2D" parent="bg"]
+[node name="Platforms" type="Node2D" parent="bg0"]
 
-[node name="PlatformStaticBody2D2" parent="bg/Platforms" instance=ExtResource("13_sd10b")]
+[node name="PlatformStaticBody2D2" parent="bg0/Platforms" instance=ExtResource("13_sd10b")]
 position = Vector2(98, -360)
 
-[node name="PlatformStaticBody2D" parent="bg/Platforms" instance=ExtResource("13_sd10b")]
+[node name="PlatformStaticBody2D" parent="bg0/Platforms" instance=ExtResource("13_sd10b")]
 position = Vector2(-56, -129)
 
-[node name="PolyPlatformStaticBody" parent="bg/Platforms" instance=ExtResource("4_hkhyx")]
+[node name="PolyPlatformStaticBody" parent="bg0/Platforms" instance=ExtResource("4_hkhyx")]
 position = Vector2(0, 58)
 
 [node name="Movement" type="Node2D" parent="."]
