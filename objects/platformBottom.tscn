@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtoku58i8fte7"]
+
+[ext_resource type="Shader" path="res://movement.gdshader" id="1_lkmsx"]
+[ext_resource type="Texture2D" uid="uid://7740d1iw4kps" path="res://art/tiles/tile_vertical_left.png" id="2_8tkrq"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fxbrf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jqki"]
+size = Vector2(101, 35.0004)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dmivh"]
+shader = ExtResource("1_lkmsx")
+
+[node name="PlatformStaticBody2D" type="StaticBody2D"]
+texture_filter = 1
+physics_material_override = SubResource("PhysicsMaterial_fxbrf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3.5, -6.5)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_7jqki")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_dmivh")
+texture = ExtResource("2_8tkrq")
+region_enabled = true
+region_rect = Rect2(0, 0, 42, 116)
